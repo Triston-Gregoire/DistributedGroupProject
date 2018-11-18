@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Client {
     private Socket sock;
-    private byte[] buffer = new byte[1024];
+    private byte[] buffer = new byte[8192];
     public Client(String ip, int port) throws IOException {
         System.out.println(ip);
         System.out.println(port);
@@ -33,13 +33,13 @@ public class Client {
         }
         String ip = responseList.get(1);
         int port = Integer.parseInt(responseList.get(2));
-        tansfer(ip, port, resource);
+        transfer(ip, port, resource);
 
 
 
         sock.close();
     }
-    public void tansfer(String ip, int port, String resource) throws IOException {
+    public void transfer(String ip, int port, String resource) throws IOException {
         Socket peerSocket = new Socket(ip, port);
         InputStream inputStream = peerSocket.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(peerSocket.getInputStream()));
@@ -49,13 +49,12 @@ public class Client {
         writer.println(resource);
         writer.println(ServiceType.END.getValue());
         String input;
-        int count = inputStream.read(buffer);
 
         File video = new File("test_pass.mp4");
         FileOutputStream fileOutputStream = new FileOutputStream(video);
-        while (count != -1){
-            fileOutputStream.write(buffer);
-            count = inputStream.read(buffer);
+        int count;
+        while ((count = inputStream.read(buffer)) > 0){
+            fileOutputStream.write(buffer, 0, count);
         }
         fileOutputStream.close();
         sock.close();
@@ -68,6 +67,7 @@ public class Client {
         //out.println(sock.getLocalAddress().getHostAddress());
         out.println("test.mp4");
         out.println(6002);
+
         sock.close();
     }
 }

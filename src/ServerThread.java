@@ -30,14 +30,13 @@ public class ServerThread extends Thread {
             String fileName = sb.toString();
 
             InputStream fileInputStream = new FileInputStream(new File(fileName));
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[8192];
 
             OutputStream outputStream = sock.getOutputStream();
 
-            int count = fileInputStream.read(buffer);
-            while (count != -1){
-                outputStream.write(buffer);
-                count = fileInputStream.read(buffer);
+            int count;
+            while ((count = fileInputStream.read(buffer)) > 0){
+                outputStream.write(buffer,0 , count);
             }
             sock.close();
 

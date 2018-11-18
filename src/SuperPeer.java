@@ -13,7 +13,7 @@ public class SuperPeer {
 
     public static void main(String[] args) {
         SuperPeer s = new SuperPeer();
-        SuperPeerCB superPeerCB = new SuperPeerCB("192.168.1.76", 6001);
+        SuperPeerCB superPeerCB = new SuperPeerCB("192.168.1.66", 6000);
         s.superPeerTable.add(superPeerCB);
         try {
             s.listen(6000);
