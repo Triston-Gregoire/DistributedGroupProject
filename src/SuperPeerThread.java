@@ -1,4 +1,5 @@
 import java.io.*;
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -158,7 +159,14 @@ public class SuperPeerThread extends Thread {
     private List<String> queryNeighbors(String input) throws IOException {
         System.out.println("SENDING QUERY TO NEIGHBORING SUPER PEERS");
         for (SuperPeerCB neighbor : neighbors) {
-            Socket querySocket = new Socket(neighbor.getIP(), neighbor.getPort());
+            Socket querySocket;
+            try {
+                querySocket = new Socket(neighbor.getIP(), neighbor.getPort());
+            }catch (ConnectException e){
+                e.printStackTrace();
+                System.out.println("Super peer at "+ neighbor.getIP() +" is unavailable");
+                continue;
+            }
             PrintWriter out = new PrintWriter(querySocket.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(querySocket.getInputStream()));
             out.println(ServiceType.QUERY.getValue());
