@@ -3,6 +3,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class Utility {
+    public static final int THIRTY_SECONDS = 30000;
     public static boolean checkIPv4(final String ip) {
         boolean isIPv4;
         try {
