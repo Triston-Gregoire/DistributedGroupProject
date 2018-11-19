@@ -170,11 +170,16 @@ public class SuperPeerThread extends Thread {
                 responseList.add(temp);
             }
             System.out.println("RESPONSE FROM QUERY RECEIVED");
-            if (responseList.size() > 2 && Utility.checkIPv4(responseList.get(1))){
-                return responseList;
-            }
-            else{
-                System.out.println("EXPECTED IPv4 ADDRESS BUT FOUND: " + responseList.get(0));
+            if (ServiceType.RESPONSE.getValue().equals(responseList.get(0))){
+                if (Utility.checkIPv4(responseList.get(1))){
+                    return responseList;
+                }
+                else if (ServiceType.NA.getValue().equals(responseList.get(1))){
+                    System.out.println("Neighboring super peer at address " + neighbor.getIP() + " couldn't find resource " + input);
+                }
+                else{
+                    System.out.println("EXPECTED IPv4 OR N-A ENUM BUT FOUND INSTEAD: " + responseList.get(1));
+                }
             }
         }
         return null;

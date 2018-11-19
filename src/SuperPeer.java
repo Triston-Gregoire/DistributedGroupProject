@@ -14,7 +14,9 @@ public class SuperPeer {
     public static void main(String[] args) {
         SuperPeer s = new SuperPeer();
         SuperPeerCB superPeerCB = new SuperPeerCB("192.168.1.66", 6000);
+        SuperPeerCB superPeerCB1 = new SuperPeerCB("192.168.1.84", 6000);
         s.superPeerTable.add(superPeerCB);
+        s.superPeerTable.add(superPeerCB1);
         try {
             s.listen(6000);
         } catch (IOException e) {
