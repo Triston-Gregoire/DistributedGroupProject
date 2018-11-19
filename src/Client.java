@@ -6,13 +6,13 @@ import java.util.List;
 public class Client {
     private Socket sock;
     private byte[] buffer = new byte[8192];
-    public Client(String ip, int port) throws IOException {
+    Client(String ip, int port) throws IOException {
         System.out.println(ip);
         System.out.println(port);
         this.sock = new Socket(ip, port);
 
     }
-    public void request(String resource) throws IOException, InterruptedException {
+    public void request(String resource) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
         OutputStream outputStream = sock.getOutputStream();
         PrintWriter out = new PrintWriter(outputStream, true);
@@ -20,7 +20,7 @@ public class Client {
         out.println(resource);
 
         String response;
-        List<String> responseList= new ArrayList<String>();
+        List<String> responseList= new ArrayList<>();
         while ((response = reader.readLine()) != null){
             responseList.add(response);
             if (response.equals(ServiceType.END.getValue())){
@@ -39,7 +39,7 @@ public class Client {
 
         sock.close();
     }
-    public void transfer(String ip, int port, String resource) throws IOException {
+    private void transfer(String ip, int port, String resource) throws IOException {
         Socket peerSocket = new Socket(ip, port);
         InputStream inputStream = peerSocket.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(peerSocket.getInputStream()));
@@ -60,7 +60,7 @@ public class Client {
         sock.close();
     }
 
-    public void register() throws IOException {
+    void register() throws IOException {
         OutputStream outputStream = sock.getOutputStream();
         PrintWriter out = new PrintWriter(outputStream, true);
         out.println(ServiceType.REGISTER.getValue());

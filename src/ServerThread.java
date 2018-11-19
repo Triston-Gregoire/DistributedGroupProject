@@ -6,7 +6,7 @@ import java.util.List;
 public class ServerThread extends Thread {
     private Socket sock;
     private List<String> resources;
-    public ServerThread(Socket sock, List<String> resourceList){
+    ServerThread(Socket sock, List<String> resourceList){
         setSock(sock);
         setResources(resourceList);
     }

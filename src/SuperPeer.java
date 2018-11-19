@@ -4,9 +4,9 @@ import java.net.Socket;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class SuperPeer {
-    ServerSocket serverSocket;
-    CopyOnWriteArrayList<PeerCB> peerTable = new CopyOnWriteArrayList<>();
-    CopyOnWriteArrayList<SuperPeerCB> superPeerTable = new CopyOnWriteArrayList<>();
+    private ServerSocket serverSocket;
+    private CopyOnWriteArrayList<PeerCB> peerTable = new CopyOnWriteArrayList<>();
+    private CopyOnWriteArrayList<SuperPeerCB> superPeerTable = new CopyOnWriteArrayList<>();
     public SuperPeer(){
 
     }
@@ -21,7 +21,7 @@ public class SuperPeer {
             e.printStackTrace();
         }
     }
-    public void listen(int port) throws IOException {
+    private void listen(int port) throws IOException {
         serverSocket = new ServerSocket(port);
         do{
             Socket sock = serverSocket.accept();

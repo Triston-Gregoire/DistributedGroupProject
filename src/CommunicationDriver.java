@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommunicationDriver {
-    private static int serverPort = 6002;
+    private static int serverPort;
     private static int superPeerPort;
     private static String superPeerIP;
     private static List<String> resourceList;
@@ -19,7 +19,7 @@ public class CommunicationDriver {
             server.start();
             Client client = new Client(getSuperPeerIP(), getSuperPeerPort());
             client.register();
-//            client.request("test.mp4");
+            client.request("test.mp4");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {

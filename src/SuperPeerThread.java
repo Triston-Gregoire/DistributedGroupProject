@@ -102,7 +102,6 @@ public class SuperPeerThread extends Thread {
 
     }
     public void handleRequest() throws IOException {
-        InetAddress result = null;
         String input;
         while ((input = reader.readLine()) != null) {
             System.out.printf("HANDLING REQUEST FOR: %s%n", input);
@@ -110,8 +109,10 @@ public class SuperPeerThread extends Thread {
                 List<String> resourceList = peer.getResource();
                 for (String str : resourceList) {
                     if (str.equalsIgnoreCase(input)){
+                        writer.println(ServiceType.RESPONSE.getValue());
                         writer.println(peer.getIP());
                         writer.println(peer.getPort());
+                        writer.println(ServiceType.END.getValue());
                         return;
                     }
                 }
