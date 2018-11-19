@@ -1,8 +1,5 @@
 import java.io.*;
-import java.net.ConnectException;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -163,7 +160,7 @@ public class SuperPeerThread extends Thread {
             Socket querySocket = new Socket();
             try {
                 querySocket.connect(new InetSocketAddress(neighbor.getIP(), neighbor.getPort()), Utility.THIRTY_SECONDS);
-            }catch (ConnectException e){
+            }catch (ConnectException | SocketTimeoutException e){
                 e.printStackTrace();
                 System.out.println("Super peer at "+ neighbor.getIP() +" is unavailable");
                 continue;
