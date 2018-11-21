@@ -25,7 +25,8 @@ public class ServerThread extends Thread {
                 System.out.println(s);
             }
             StringBuilder sb = new StringBuilder();
-            sb.append("C:\\Users\\Triston C Gregoire\\Desktop\\");
+            //sb.append("C:\\Users\\Triston C Gregoire\\Desktop\\");
+            sb.append("./res/");
             sb.append(inputList.get(1));
             String fileName = sb.toString();
 

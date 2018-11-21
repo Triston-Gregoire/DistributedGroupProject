@@ -14,7 +14,7 @@ public class PeerCB {
         setPort(port);
         setIP(ip);
     }
-    public PeerCB(Socket sock, String resource, String port){
+    public PeerCB(Socket sock, List<String> resource, String port){
         setSocket(sock);
         setIP(sock.getInetAddress().getHostAddress());
         setResource(resource);
@@ -33,8 +33,8 @@ public class PeerCB {
         return resource;
     }
 
-    public void setResource(String resource) {
-        this.resource.add(resource);
+    public void setResource(List<String> resource) {
+        this.resource = resource;
     }
 
     public int getPort() {

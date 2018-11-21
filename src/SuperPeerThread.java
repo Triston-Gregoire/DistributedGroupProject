@@ -126,6 +126,7 @@ public class SuperPeerThread extends Thread {
                 writer.println(remoteResult.get(2));
                 writer.println(ServiceType.END.getValue());
             }
+            else{writer.println(ServiceType.NA.getValue());}
         }
     }
 
@@ -137,11 +138,24 @@ public class SuperPeerThread extends Thread {
             while ((str = reader.readLine()) != null) {
                 //System.out.println("Resource: " + resource);
                 inputList.add(str);
+                if (ServiceType.END.getValue().equals(str)){
+                    break;
+                }
             }
+
+
             //String ip = inputList.get(0);
-            String resource = inputList.get(0);
-            String port = inputList.get(1);
-            PeerCB newPeer = new PeerCB(sock, resource, port);
+            //String resource = inputList.get(0);
+            String port = inputList.get(0);
+            inputList.remove(0);
+            inputList.remove(inputList.size() - 1);
+            PeerCB newPeer = new PeerCB(sock, inputList, port);
+            for (PeerCB peer : peers) {
+                if (peer.getIP().equals(newPeer.getIP()) && peer.getPort() == newPeer.getPort()){
+                    peer = newPeer;
+                    return;
+                }
+            }
             peers.add(newPeer);
             frame.addNode(newPeer);
         }
@@ -161,6 +175,9 @@ public class SuperPeerThread extends Thread {
     private List<String> queryNeighbors(String input) throws IOException {
         System.out.println("SENDING QUERY TO NEIGHBORING SUPER PEERS");
         for (SuperPeerCB neighbor : neighbors) {
+            if(!Utility.checkIPv4( neighbor.getIP() )){
+                return null;
+            }
             Socket querySocket = new Socket();
             try {
                 querySocket.connect(new InetSocketAddress(neighbor.getIP(), neighbor.getPort()), Utility.THIRTY_SECONDS);

@@ -10,19 +10,22 @@ public class NodeForm {
     private JPanel panel1;
     private JButton registerButton1;
     private JButton requestFileButton;
+    private String suggestedIP;
 
     public NodeForm() {
         registerButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String addressPort =  (String)JOptionPane.showInputDialog("Input Super Peer IP address and local port number separated by a dash i.e 192.168.1.1-4000");
+                suggestedIP = addressPort;
                 String[] address = addressPort.split("-");
-                String resource = (String)JOptionPane.showInputDialog("Input file name and extension");
-                List<String> resourceList = new ArrayList<>();
-                resourceList.add(resource);
+                List<String> options = Utility.pullResource();
+//                String resource = (String)JOptionPane.showInputDialog(NodeForm.this,"Choose file to seed", "Select a file",JOptionPane.PLAIN_MESSAGE, null, s);
+//                List<String> resourceList = new ArrayList<>();
+//                resourceList.add(resource);
                 try {
-                    Server server = new Server(address[0],Integer.parseInt(address[1]), 6002, resourceList);
-                    server.register();
+                    Server server = new Server(address[0],Integer.parseInt(address[1]), 6002, options);
+                    server.register(options);
                     server.start();
                 } catch (IOException e1) {
                     e1.printStackTrace();
@@ -30,7 +33,7 @@ public class NodeForm {
             }
         });
         requestFileButton.addActionListener(e -> {
-            String input = (String)JOptionPane.showInputDialog("Input Super Peer IP address and local port number separated by a dash i.e 192.168.1.1-4000");
+            String input = (String)JOptionPane.showInputDialog(null, "Input Super Peer IP address and local port number separated by a dash i.e 192.168.1.1-4000", suggestedIP);
             String[] address = input.split("-");
             try {
                 Client client = new Client(address[0], Integer.parseInt(address[1]));

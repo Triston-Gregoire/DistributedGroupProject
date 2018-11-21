@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -25,6 +26,9 @@ public class Client {
             responseList.add(response);
             if (response.equals(ServiceType.END.getValue())){
                 break;
+            } else if (response.equals(ServiceType.NA.getValue())) {
+                JOptionPane.showMessageDialog(null,resource + " is not available locally or remotely!");
+                return;
             }
         }
 
@@ -50,7 +54,7 @@ public class Client {
         writer.println(ServiceType.END.getValue());
         String input;
 
-        File video = new File("test_pass.mp4");
+        File video = new File(resource);
         FileOutputStream fileOutputStream = new FileOutputStream(video);
         int count;
         while ((count = inputStream.read(buffer)) > 0){

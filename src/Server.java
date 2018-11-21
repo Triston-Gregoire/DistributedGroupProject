@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -21,6 +22,9 @@ public class Server extends Thread{
         setSock(new Socket(ip,port));
         setSuperPeerPort(port);
     }
+    public Server(){
+
+    }
 
     @Override
     public void run() {
@@ -32,24 +36,31 @@ public class Server extends Thread{
     }
 
     public void listen() throws IOException {
+        ServerSocket serverSocket = new ServerSocket(port);
         do {
-            ServerSocket serverSocket = new ServerSocket(port);
+
             Socket socket = serverSocket.accept();
             ServerThread thread = new ServerThread(socket,resources);
             thread.start();
         }while (true);
     }
 
-    void register() throws IOException {
+    void register(List<String> resource) throws IOException {
         OutputStream outputStream = sock.getOutputStream();
         PrintWriter out = new PrintWriter(outputStream, true);
         out.println(ServiceType.REGISTER.getValue());
         //out.println(sock.getLocalAddress().getHostAddress());
-        out.println("test.mp4");
         out.println(getPort());
+        for (String str : resource) {
+            out.println(str);
+        }
+        out.println(ServiceType.END.getValue());
+
+//        out.println(resource);
 
         sock.close();
     }
+
 
     public String getIP() {
         return IP;

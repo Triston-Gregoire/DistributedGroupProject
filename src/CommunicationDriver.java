@@ -12,7 +12,9 @@ public class CommunicationDriver {
         CommunicationDriver.setSuperPeerPort(6000);
         CommunicationDriver.setSuperPeerIP("192.168.1.76");
         CommunicationDriver.setResourceList(new ArrayList<>());
-        CommunicationDriver.getResourceList().add("test.mp4");
+        //Server server = new Server();
+        //server.pullResources();
+        //CommunicationDriver.getResourceList().add("test.mp4");
 
 //        try {
 //            Server server = new Server(getServerPort(), getResourceList());

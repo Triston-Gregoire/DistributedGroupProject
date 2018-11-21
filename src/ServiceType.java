@@ -6,6 +6,7 @@ enum ServiceType{
     REGISTER_SUPER("REGISTER_SUPER"),
     NA("N-A"),
     END("END"),
+    FILE_SEPARATOR("#&"),
     RESOURCE("RESOURCE");
 
     private String value;
