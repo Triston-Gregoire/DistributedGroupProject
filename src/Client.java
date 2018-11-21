@@ -38,7 +38,7 @@ public class Client {
         String ip = responseList.get(1);
         int port = Integer.parseInt(responseList.get(2));
         transfer(ip, port, resource);
-
+        JOptionPane.showMessageDialog(null, "Transfer complete!");
 
 
         sock.close();
