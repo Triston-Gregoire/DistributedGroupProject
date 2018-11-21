@@ -14,17 +14,17 @@ public class CommunicationDriver {
         CommunicationDriver.setResourceList(new ArrayList<>());
         CommunicationDriver.getResourceList().add("test.mp4");
 
-        try {
-            Server server = new Server(getServerPort(), getResourceList());
-            server.start();
-            Client client = new Client(getSuperPeerIP(), getSuperPeerPort());
-            client.register();
+//        try {
+//            Server server = new Server(getServerPort(), getResourceList());
+//            server.start();
+            //Client client = new Client(getSuperPeerIP(), getSuperPeerPort());
+//            client.register();
 //            client.request("test.mp4");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     public static int getServerPort() {

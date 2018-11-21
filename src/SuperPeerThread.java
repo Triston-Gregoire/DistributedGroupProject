@@ -12,13 +12,16 @@ public class SuperPeerThread extends Thread {
     PrintWriter writer;
     BufferedReader reader;
 
+    MainFrame frame;
 
-    public SuperPeerThread(CopyOnWriteArrayList peerTable, CopyOnWriteArrayList superPeerTable, Socket sock) throws IOException {
+
+    public SuperPeerThread(CopyOnWriteArrayList peerTable, CopyOnWriteArrayList superPeerTable, Socket sock, MainFrame frame) throws IOException {
         this.peers = peerTable;
         this.neighbors = superPeerTable;
         this.sock = sock;
         this.writer = new PrintWriter(sock.getOutputStream(), true);
         this.reader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+        this.frame = frame;
     }
 
     @Override
@@ -140,6 +143,7 @@ public class SuperPeerThread extends Thread {
             String port = inputList.get(1);
             PeerCB newPeer = new PeerCB(sock, resource, port);
             peers.add(newPeer);
+            frame.addNode(newPeer);
         }
         else if(ServiceType.REGISTER_SUPER == type){
             String str;
@@ -190,6 +194,4 @@ public class SuperPeerThread extends Thread {
         }
         return null;
     }
-
-
 }

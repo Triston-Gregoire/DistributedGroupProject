@@ -16,4 +16,6 @@ public class Utility {
         }
         return isIPv4;
     }
+    public static String space(){return " ";}
+    public static String newLine(){return "\n";};
 }

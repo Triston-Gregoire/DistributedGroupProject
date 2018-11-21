@@ -3,15 +3,18 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class SuperPeer {
+public class SuperPeer extends Thread{
     private ServerSocket serverSocket;
-    private CopyOnWriteArrayList<PeerCB> peerTable = new CopyOnWriteArrayList<>();
-    private CopyOnWriteArrayList<SuperPeerCB> superPeerTable = new CopyOnWriteArrayList<>();
-    public SuperPeer(){
-
+    CopyOnWriteArrayList<PeerCB> peerTable = new CopyOnWriteArrayList<>();
+    CopyOnWriteArrayList<SuperPeerCB> superPeerTable = new CopyOnWriteArrayList<>();
+    MainFrame frame;
+    int port;
+    public SuperPeer(int port, MainFrame frame){
+        this.port = port;
+        this.frame = frame;
     }
 
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
         SuperPeer s = new SuperPeer();
         SuperPeerCB superPeerCB = new SuperPeerCB("192.168.1.66", 6000);
         SuperPeerCB superPeerCB1 = new SuperPeerCB("192.168.1.84", 6000);
@@ -23,13 +26,37 @@ public class SuperPeer {
             e.printStackTrace();
         }
     }
-    private void listen(int port) throws IOException {
-        serverSocket = new ServerSocket(port);
-        do{
-            Socket sock = serverSocket.accept();
-            SuperPeerThread thread = new SuperPeerThread(peerTable, superPeerTable, sock);
-            thread.start();
+    */
 
-        }while (true);
+    @Override
+    public void run() {
+        listen();
+    }
+
+    void listen(int port){
+        try {
+            serverSocket = new ServerSocket(port);
+            do {
+                Socket sock = serverSocket.accept();
+                SuperPeerThread thread = new SuperPeerThread(peerTable, superPeerTable, sock, frame);
+                thread.start();
+
+            } while (true);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    void listen(){
+        try {
+            serverSocket = new ServerSocket(port);
+            do {
+                Socket sock = serverSocket.accept();
+                SuperPeerThread thread = new SuperPeerThread(peerTable, superPeerTable, sock, frame);
+                thread.start();
+
+            } while (true);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

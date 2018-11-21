@@ -60,14 +60,5 @@ public class Client {
         sock.close();
     }
 
-    void register() throws IOException {
-        OutputStream outputStream = sock.getOutputStream();
-        PrintWriter out = new PrintWriter(outputStream, true);
-        out.println(ServiceType.REGISTER.getValue());
-        //out.println(sock.getLocalAddress().getHostAddress());
-        out.println("test.mp4");
-        out.println(6002);
 
-        sock.close();
-    }
 }
