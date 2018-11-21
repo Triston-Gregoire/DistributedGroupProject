@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class Client {
         int port = Integer.parseInt(responseList.get(2));
         transfer(ip, port, resource);
         JOptionPane.showMessageDialog(null, "Transfer complete!");
-
+        Desktop.getDesktop().open(new File(resource));
 
         sock.close();
     }
