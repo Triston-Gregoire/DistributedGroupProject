@@ -7,6 +7,8 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class Client {
     private Socket sock;
@@ -60,10 +62,18 @@ public class Client {
 
         File video = new File(resource);
         FileOutputStream fileOutputStream = new FileOutputStream(video);
+
+        int currentProgress = 0;
         int count;
+        int j = 0;
 
         while ((count = inputStream.read(buffer)) > 0){
             fileOutputStream.write(buffer, 0, count);
+            currentProgress = currentProgress + count;
+            if (j % 100 == 0 || Utility.getPercentage(currentProgress,size) == 100.0){
+                System.out.println("Download Progress ... " + Utility.getPercentage(currentProgress, size) + "%");
+            }
+            j++;
         }
         fileOutputStream.close();
         sock.close();

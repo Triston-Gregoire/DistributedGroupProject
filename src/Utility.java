@@ -44,6 +44,10 @@ public class Utility {
         }
         return result;
     }
+    public static float getPercentage(int n, int total){
+        float propoartion = ((float) n) / ((float) total);
+        return propoartion * 100;
+    }
     public static String space(){return " ";}
     public static String newLine(){return "\n";};
 }
