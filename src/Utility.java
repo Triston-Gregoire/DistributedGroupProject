@@ -33,12 +33,13 @@ public class Utility {
         System.out.println(result);
         return result;
     }
-    public static List<String> pullResource(){
+    public static List<FileCB> pullResource(){
         File[] files = new File("./res").listFiles();
-        List<String> result = new ArrayList<>();
+        List<FileCB> result = new ArrayList<>();
         for (File file : files) {
             if (file.isFile()){
-                result.add(file.getName());
+                FileCB newFile = new FileCB(file.getName(), file.length());
+                result.add(newFile);
             }
         }
         return result;

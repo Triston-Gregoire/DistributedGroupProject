@@ -1,4 +1,7 @@
+import javafx.concurrent.Task;
+
 import javax.swing.*;
+import javax.swing.SwingWorker;
 import java.awt.*;
 import java.io.*;
 import java.net.Socket;
@@ -38,13 +41,14 @@ public class Client {
         }
         String ip = responseList.get(1);
         int port = Integer.parseInt(responseList.get(2));
-        transfer(ip, port, resource);
+        int size = Integer.parseInt(responseList.get(3));
+        transfer(ip, port, resource, size);
         JOptionPane.showMessageDialog(null, "Transfer complete!");
         Desktop.getDesktop().open(new File(resource));
 
         sock.close();
     }
-    private void transfer(String ip, int port, String resource) throws IOException {
+    private void transfer(String ip, int port, String resource, int size) throws IOException {
         Socket peerSocket = new Socket(ip, port);
         InputStream inputStream = peerSocket.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(peerSocket.getInputStream()));
@@ -53,17 +57,15 @@ public class Client {
         writer.println(ServiceType.RESOURCE.getValue());
         writer.println(resource);
         writer.println(ServiceType.END.getValue());
-        String input;
 
         File video = new File(resource);
         FileOutputStream fileOutputStream = new FileOutputStream(video);
         int count;
+
         while ((count = inputStream.read(buffer)) > 0){
             fileOutputStream.write(buffer, 0, count);
         }
         fileOutputStream.close();
         sock.close();
     }
-
-
 }

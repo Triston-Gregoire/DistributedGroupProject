@@ -5,8 +5,8 @@ import java.util.List;
 
 public class ServerThread extends Thread {
     private Socket sock;
-    private List<String> resources;
-    ServerThread(Socket sock, List<String> resourceList){
+    private List<FileCB> resources;
+    ServerThread(Socket sock, List<FileCB> resourceList){
         setSock(sock);
         setResources(resourceList);
     }
@@ -34,7 +34,6 @@ public class ServerThread extends Thread {
             byte[] buffer = new byte[8192];
 
             OutputStream outputStream = sock.getOutputStream();
-
             int count;
             while ((count = fileInputStream.read(buffer)) > 0){
                 outputStream.write(buffer,0 , count);
@@ -55,11 +54,11 @@ public class ServerThread extends Thread {
         this.sock = sock;
     }
 
-    public List<String> getResources() {
+    public List<FileCB> getResources() {
         return resources;
     }
 
-    public void setResources(List<String> resources) {
+    public void setResources(List<FileCB> resources) {
         this.resources = resources;
     }
 }

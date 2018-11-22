@@ -30,16 +30,6 @@ public class SuperPeerThread extends Thread {
             ServiceType type = categorize();
             service(type);
 
-            //debug output
-            for (PeerCB peer : peers) {
-                List<String> resource = peer.getResource();
-                for (String s : resource) {
-                    if ("resource.txt".equalsIgnoreCase(s)){
-                        System.out.println(resource);
-                    }
-                }
-            }
-
             sock.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -73,13 +63,14 @@ public class SuperPeerThread extends Thread {
        //assert input == ServiceType.QUERY.getValue();
        while ((input = reader.readLine()) != null){
            for (PeerCB peer : peers) {
-               List<String> resources = peer.getResource();
-               for (String resource : resources) {
-                   if (input.equalsIgnoreCase(resource)){
+               List<FileCB> resources = peer.getResource();
+               for (FileCB resource : resources) {
+                   if (input.equalsIgnoreCase(resource.fileName)){
                        System.out.printf("RESOURCE: %s FOUND. SENDING RESPONSE%n", input);
                        writer.println(ServiceType.RESPONSE.getValue());
                        writer.println(peer.getIP());
                        writer.println(peer.getPort());
+                       writer.println(resource.getFileSize());
                        return;
                    }
                }
@@ -108,12 +99,13 @@ public class SuperPeerThread extends Thread {
         while ((input = reader.readLine()) != null) {
             System.out.printf("HANDLING REQUEST FOR: %s%n", input);
             for (PeerCB peer : peers) {
-                List<String> resourceList = peer.getResource();
-                for (String str : resourceList) {
-                    if (str.equalsIgnoreCase(input)){
+                List<FileCB> resourceList = peer.getResource();
+                for (FileCB file : resourceList) {
+                    if (file.getFileName().equalsIgnoreCase(input)){
                         writer.println(ServiceType.RESPONSE.getValue());
                         writer.println(peer.getIP());
                         writer.println(peer.getPort());
+                        writer.println(file.getFileSize());
                         writer.println(ServiceType.END.getValue());
                         return;
                     }
@@ -124,6 +116,7 @@ public class SuperPeerThread extends Thread {
                 writer.println(remoteResult.get(0));
                 writer.println(remoteResult.get(1));
                 writer.println(remoteResult.get(2));
+                writer.println(remoteResult.get(3));
                 writer.println(ServiceType.END.getValue());
             }
             else{writer.println(ServiceType.NA.getValue());}
@@ -134,9 +127,9 @@ public class SuperPeerThread extends Thread {
         System.out.println("HANDLING REGISTRATION");
         if (ServiceType.REGISTER == type){
             String str;
+            FileCB fileCB = new FileCB();
             List<String> inputList = new ArrayList<>();
             while ((str = reader.readLine()) != null) {
-                //System.out.println("Resource: " + resource);
                 inputList.add(str);
                 if (ServiceType.END.getValue().equals(str)){
                     break;
@@ -150,6 +143,8 @@ public class SuperPeerThread extends Thread {
             inputList.remove(0);
             inputList.remove(inputList.size() - 1);
             PeerCB newPeer = new PeerCB(sock, inputList, port);
+
+
             for (PeerCB peer : peers) {
                 if (peer.getIP().equals(newPeer.getIP()) && peer.getPort() == newPeer.getPort()){
                     peer = newPeer;

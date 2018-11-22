@@ -19,7 +19,7 @@ public class NodeForm {
                 String addressPort =  (String)JOptionPane.showInputDialog("Input Super Peer IP address and local port number separated by a dash i.e 192.168.1.1-4000");
                 suggestedIP = addressPort;
                 String[] address = addressPort.split("-");
-                List<String> options = Utility.pullResource();
+                List<FileCB> options = Utility.pullResource();
 //                String resource = (String)JOptionPane.showInputDialog(NodeForm.this,"Choose file to seed", "Select a file",JOptionPane.PLAIN_MESSAGE, null, s);
 //                List<String> resourceList = new ArrayList<>();
 //                resourceList.add(resource);

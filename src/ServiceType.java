@@ -7,6 +7,7 @@ enum ServiceType{
     NA("N-A"),
     END("END"),
     FILE_SEPARATOR("#&"),
+    META("META"),
     RESOURCE("RESOURCE");
 
     private String value;

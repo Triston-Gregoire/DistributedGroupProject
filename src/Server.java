@@ -9,13 +9,13 @@ import java.util.List;
 public class Server extends Thread{
     private String IP;
     private int port;
-    private List<String> resources;
+    private List<FileCB> resources;
     private Socket sock;
     private int superPeerPort;
 
 
 
-    public Server( String ip, int port, int localPort, List<String> resourceList) throws IOException {
+    public Server( String ip, int port, int localPort, List<FileCB> resourceList) throws IOException {
         setIP(ip);
         setPort(localPort);
         setResources(resourceList);
@@ -45,14 +45,16 @@ public class Server extends Thread{
         }while (true);
     }
 
-    void register(List<String> resource) throws IOException {
+    void register(List<FileCB> resource) throws IOException {
         OutputStream outputStream = sock.getOutputStream();
         PrintWriter out = new PrintWriter(outputStream, true);
         out.println(ServiceType.REGISTER.getValue());
         //out.println(sock.getLocalAddress().getHostAddress());
         out.println(getPort());
-        for (String str : resource) {
-            out.println(str);
+        for (FileCB fcb : resource) {
+            out.println(ServiceType.META.getValue());
+            out.println(fcb.fileName);
+            out.println(fcb.fileSize);
         }
         out.println(ServiceType.END.getValue());
 
@@ -78,11 +80,11 @@ public class Server extends Thread{
         this.port = port;
     }
 
-    public List<String> getResources() {
+    public List<FileCB> getResources() {
         return resources;
     }
 
-    public void setResources(List<String> resources) {
+    public void setResources(List<FileCB> resources) {
         this.resources = resources;
     }
 
