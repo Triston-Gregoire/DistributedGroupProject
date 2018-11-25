@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-public class Client {
+public class Client extends TimeKeeper{
     private Socket sock;
     private byte[] buffer = new byte[8192];
     Client(String ip, int port) throws IOException {
@@ -46,11 +46,12 @@ public class Client {
         int size = Integer.parseInt(responseList.get(3));
         transfer(ip, port, resource, size);
         JOptionPane.showMessageDialog(null, "Transfer complete!");
-        Desktop.getDesktop().open(new File(resource));
+//        Desktop.getDesktop().open(new File(resource));
 
         sock.close();
     }
     private void transfer(String ip, int port, String resource, int size) throws IOException {
+        startTime = System.nanoTime();
         Socket peerSocket = new Socket(ip, port);
         InputStream inputStream = peerSocket.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(peerSocket.getInputStream()));
@@ -62,6 +63,7 @@ public class Client {
 
         File video = new File(resource);
         FileOutputStream fileOutputStream = new FileOutputStream(video);
+
 
         int currentProgress = 0;
         int count;
@@ -75,7 +77,21 @@ public class Client {
             }
             j++;
         }
+        endTime = System.nanoTime();
+
+        double transferSize = (video.length() / 1000000.0);
+        double transferTime = (endTime - startTime) / FROMNANO;
+        double transferRate = transferSize / transferTime;
+
+        transferTime = Utility.round(transferTime, Utility.SIGFIGS);
+        transferRate = Utility.round(transferRate, Utility.SIGFIGS);
+
+        System.out.println(transferTime + " seconds");
+        System.out.println(transferRate + " MB/s");
+        Object[] metrics = {transferTime, transferRate, transferSize};
         fileOutputStream.close();
+//        Utility.initializeOutput();
+        Utility.appendToFile(metrics);
         sock.close();
     }
 }

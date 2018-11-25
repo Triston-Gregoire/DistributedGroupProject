@@ -26,6 +26,11 @@ public class FileCB {
         this.fileSize = fileSize;
     }
     public void setFileSize(long fileSize){
-        this.fileSize = Math.toIntExact(fileSize);
+        try {
+            this.fileSize = Math.toIntExact(fileSize);
+        }catch (ArithmeticException ae){
+            ae.printStackTrace();
+            return;
+        }
     }
 }
