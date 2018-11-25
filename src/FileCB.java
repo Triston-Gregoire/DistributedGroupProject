@@ -30,7 +30,7 @@ public class FileCB {
             this.fileSize = Math.toIntExact(fileSize);
         }catch (ArithmeticException ae){
             ae.printStackTrace();
-            return;
+            this.fileSize = -1;
         }
     }
 }
