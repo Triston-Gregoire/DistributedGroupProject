@@ -144,10 +144,11 @@ public class SuperPeerThread extends Thread {
             inputList.remove(inputList.size() - 1);
             PeerCB newPeer = new PeerCB(sock, inputList, port);
 
-
+            int i = 0;
             for (PeerCB peer : peers) {
                 if (peer.getIP().equals(newPeer.getIP()) && peer.getPort() == newPeer.getPort()){
-                    peer = newPeer;
+                    //peer = newPeer;
+                    peers.set(i, newPeer);
                     return;
                 }
             }

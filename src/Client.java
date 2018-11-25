@@ -83,6 +83,7 @@ public class Client extends TimeKeeper{
         double transferTime = (endTime - startTime) / FROMNANO;
         double transferRate = transferSize / transferTime;
 
+        transferSize = Utility.round(transferSize, Utility.SIGFIGS);
         transferTime = Utility.round(transferTime, Utility.SIGFIGS);
         transferRate = Utility.round(transferRate, Utility.SIGFIGS);
 
