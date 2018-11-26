@@ -1,3 +1,6 @@
+/*
+ * @Author Triston Gregoire
+ */
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,7 +22,7 @@ public class NodeForm {
         registerButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String addressPort =  (String)JOptionPane.showInputDialog("Input Super Peer IP address and local port number separated by a dash i.e 192.168.1.1-4000");
+                String addressPort = (String) JOptionPane.showInputDialog("Input Super Peer IP address and local port number separated by a dash i.e 192.168.1.1-4000");
                 suggestedIP = addressPort;
                 String[] address = addressPort.split("-");
                 List<FileCB> options = Utility.pullResource();
@@ -27,7 +30,7 @@ public class NodeForm {
 //                List<String> resourceList = new ArrayList<>();
 //                resourceList.add(resource);
                 try {
-                    server = new Server(address[0],Integer.parseInt(address[1]), 6002, options);
+                    server = new Server(address[0], Integer.parseInt(address[1]), 6002, options);
                     server.register(options);
                     server.start();
                 } catch (IOException e1) {
@@ -43,6 +46,11 @@ public class NodeForm {
                 try {
                     Client client = new Client(address[0], Integer.parseInt(address[1]));
                     String resource = (String) JOptionPane.showInputDialog("Input file and extension to download");
+                    //testing loop
+//                    for (int i = 0; i < 10; i++) {
+//                        client.setSock(new Socket(address[0], Integer.parseInt(address[1])));
+//                        client.request(resource);
+//                    }
                     client.request(resource);
                 } catch (IOException e1) {
                     e1.printStackTrace();
@@ -53,14 +61,14 @@ public class NodeForm {
         updateRegistrationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (server.getSock().isClosed()){
+                if (server.getSock().isClosed()) {
                     try {
                         server.setSock(new Socket(server.getIP(), server.getSuperPeerPort()));
                         server.register(Utility.pullResource());
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
-                }else {
+                } else {
                     try {
                         server.register(Utility.pullResource());
                     } catch (IOException e1) {

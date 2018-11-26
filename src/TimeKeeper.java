@@ -1,3 +1,6 @@
+/*
+ * @Author Triston Gregoire
+ */
 public class TimeKeeper {
     double startTime = -1;
     double endTime = -1;

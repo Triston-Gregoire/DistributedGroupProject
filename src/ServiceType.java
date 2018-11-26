@@ -1,3 +1,6 @@
+/*
+ * @Author Triston Gregoire
+ */
 enum ServiceType{
     REQUEST("REQUEST"),
     QUERY("QUERY"),

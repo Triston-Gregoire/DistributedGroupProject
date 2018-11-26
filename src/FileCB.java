@@ -1,3 +1,6 @@
+/*
+ * @Author Triston Gregoire
+ */
 public class FileCB {
     public String fileName;
     int fileSize;

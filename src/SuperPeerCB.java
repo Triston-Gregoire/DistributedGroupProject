@@ -1,3 +1,6 @@
+/*
+ * @Author Triston Gregoire
+ */
 public class SuperPeerCB {
     private String IP;
     private int port;

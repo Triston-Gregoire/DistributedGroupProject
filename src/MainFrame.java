@@ -1,4 +1,8 @@
+/*
+ * @Author Triston Gregoire
+ */
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,7 +21,7 @@ public class MainFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SuperPeer superPeer = new SuperPeer(port, MainFrame.this);
-                String str = (String)JOptionPane.showInputDialog("Input list of IPs for other super peers seperated by \'/\' ");
+                String str = (String) JOptionPane.showInputDialog("Input list of IPs for other super peers seperated by \'/\' ");
                 String[] neighbors = str.split("/");
                 int count = 0;
                 for (String neighbor : neighbors) {
@@ -47,7 +51,8 @@ public class MainFrame {
         frame.pack();
         frame.setVisible(true);
     }
-    public void addNode(PeerCB peer){
+
+    public void addNode(PeerCB peer) {
         StringBuilder sb = new StringBuilder("Peer ");
         sb.append(Integer.toString(peerCount));
         sb.append(Utility.space()).append(peer.getIP());
@@ -64,4 +69,5 @@ public class MainFrame {
     public void setSubNodeList(JTextArea subNodeList) {
         this.subNodeList = subNodeList;
     }
+
 }

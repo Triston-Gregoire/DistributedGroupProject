@@ -1,3 +1,6 @@
+/*
+ * @Author Triston Gregoire
+ */
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;

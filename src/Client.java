@@ -1,3 +1,7 @@
+/*
+ * @Author Triston Gregoire
+ */
+
 import javafx.concurrent.Task;
 
 import javax.swing.*;
@@ -11,6 +15,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 public class Client extends TimeKeeper{
+    public Socket getSock() {
+        return sock;
+    }
+
+    public void setSock(Socket sock) {
+        this.sock = sock;
+    }
+
     private Socket sock;
     private byte[] buffer = new byte[8192];
     Client(String ip, int port) throws IOException {
@@ -45,8 +57,8 @@ public class Client extends TimeKeeper{
         int port = Integer.parseInt(responseList.get(2));
         int size = Integer.parseInt(responseList.get(3));
         transfer(ip, port, resource, size);
-        JOptionPane.showMessageDialog(null, "Transfer complete!");
-//        Desktop.getDesktop().open(new File(resource));
+        //OptionPane.showMessageDialog(null, "Transfer complete!");
+        Desktop.getDesktop().open(new File(resource));
 
         sock.close();
     }
@@ -72,7 +84,7 @@ public class Client extends TimeKeeper{
         while ((count = inputStream.read(buffer)) > 0){
             fileOutputStream.write(buffer, 0, count);
             currentProgress = currentProgress + count;
-            if (j % 100 == 0 || Utility.getPercentage(currentProgress,size) == 100.0){
+            if (Utility.getPercentage((j % 5), size) == 0 || Utility.getPercentage(currentProgress,size) == 100.0){
                 System.out.println("Download Progress ... " + Utility.getPercentage(currentProgress, size) + "%");
             }
             j++;
@@ -91,7 +103,7 @@ public class Client extends TimeKeeper{
         System.out.println(transferRate + " MB/s");
         Object[] metrics = {transferTime, transferRate, transferSize};
         fileOutputStream.close();
-//        Utility.initializeOutput();
+        //Utility.initializeOutput();
         Utility.appendToFile(metrics);
         sock.close();
     }
